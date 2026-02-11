@@ -41,11 +41,12 @@ export const Navbar = () => {
          
           <div className="hidden lg:flex items-center gap-4">
             <Button 
+            asChild
               variant="ghost"
               type="button" 
               className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
             >
-              Sign In
+             <Link href="/signin">Sign IN</Link>
             </Button>
             <Button 
               asChild
