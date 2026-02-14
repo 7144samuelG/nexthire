@@ -22,7 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-//import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { FaLinkedin, FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 const registerSchema = z
@@ -51,23 +51,23 @@ export function SignUpForm() {
 
   const onSubmit = async (values: registerformvalues) => {
     console.log("submitting", values);
-    // await authClient.signUp.email({
-    //   name: values.email,
-    //   email: values.email,
-    //   password: values.password,
-    //   callbackURL: "/",
-    // },
-    // {
-    //     onSuccess:()=>{
-    //         router.push("/home")
-    //     },
+    await authClient.signUp.email({
+      name: values.email,
+      email: values.email,
+      password: values.password,
+      callbackURL: "/",
+    },
+    {
+        onSuccess:()=>{
+            router.push("/dashbord")
+        },
 
-    //     onError:(ctx)=>{
-    //       console.log("error", ctx.error.message),"err";
-    //         toast.error(ctx.error.message)
-    //     }
+        onError:(ctx)=>{
+          console.log("error", ctx.error.message),"err";
+            toast.error(ctx.error.message)
+        }
 
-    // });
+    });
   };
 
   const isPending = form.formState.isSubmitting;

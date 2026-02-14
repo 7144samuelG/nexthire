@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-//import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { FaLinkedin,FaGoogle } from "react-icons/fa";
 const loginSchema=z.object({
@@ -30,21 +30,21 @@ export function SignInForm(){
     });
 
     const onSubmit=async(values:loginformvalues)=>{
-        // await authClient.signIn.email({
-        //      email: values.email,
-        //      password: values.password,
-        //      callbackURL: "/",
-        //    },
-        //    {
-        //        onSuccess:()=>{
-        //            router.push("/")
-        //        },
+        await authClient.signIn.email({
+             email: values.email,
+             password: values.password,
+             callbackURL: "/",
+           },
+           {
+               onSuccess:()=>{
+                   router.push("/dashboard")
+               },
                
-        //        onError:(ctx)=>{
-        //            toast.error(ctx.error.message)
-        //        }
+               onError:(ctx)=>{
+                   toast.error(ctx.error.message)
+               }
            
-        //    });
+           });
     };
 
     const isPending=form.formState.isSubmitting;
