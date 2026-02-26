@@ -2,14 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useCreateNewJob, useSuspenseJobs } from "../hooks/use-jobs";
-import { Container, EntityPagination, EntitySearch, Header } from "@/components/jobs-entity";
+import { Container, EmptyView, EntityPagination, EntitySearch, ErrorView, Header, LoadingView } from "@/components/jobs-entity";
 import { useJobsParams } from "../hooks/use-jobs-params";
 import { useEntitySearch } from "@/hooks/use-entity-search";
 
 export const Jobslist = () => {
   const jobs = useSuspenseJobs();
-  console.log(jobs,"jobs")
-
+  if (jobs.data.items.length === 0 ) {
+    return <JobsEmpty/>
+  }
   return <div >{JSON.stringify(jobs, null, 2)}</div>;
 };
 
@@ -70,6 +71,38 @@ export const JobsPagination = () => {
     />
   );
 };
+
+
+export const JobsLoading=()=>{
+  return <LoadingView message="loading your jobs ..."/>
+}
+
+export const JobsError=()=>{
+  return <ErrorView message="Error loadingjobs ..."/>
+}
+
+export const JobsEmpty=()=>{
+  const createNewJob=useCreateNewJob();
+  //const{handleError,modal}=useUpgradeModel();
+  const router=useRouter();
+  const handleCreate=()=>{
+    createNewJob.mutate(undefined,{
+      onSuccess: (data) => {
+        router.push(`/data/${data.id}`);
+      },
+      onError:(error)=>{
+       // handleError(error)
+      }
+    })
+  }
+  return(
+    <>
+   
+      <EmptyView onNew={handleCreate} message="you havent created any job yet.."/>
+    </>
+  )
+}
+
 export const JobsContainer = ({
     children,
   }: {

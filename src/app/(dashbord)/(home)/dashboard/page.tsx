@@ -1,4 +1,4 @@
-import { JobsContainer, Jobslist } from "@/features/jobs/components/jobs";
+import { JobsContainer, JobsError, Jobslist, JobsLoading } from "@/features/jobs/components/jobs";
 import { JobsParamsLoader } from "@/features/jobs/server/params-loader";
 import { prefetchJobs } from "@/features/jobs/server/prefetch";
 import { requireauth } from "@/lib/auth-utils";
@@ -20,8 +20,8 @@ const Dashboard = async ({ searchParams }: Props) => {
   return (
     <JobsContainer>
       <HydrateClient>
-        <ErrorBoundary fallback={<div>Something went wrong</div>}>
-          <Suspense fallback={<div>Loading...</div>}>
+        <ErrorBoundary fallback={<JobsError/>}>
+          <Suspense fallback={<JobsLoading/>}>
             <Jobslist />
           </Suspense>
         </ErrorBoundary>

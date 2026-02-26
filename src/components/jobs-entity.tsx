@@ -1,7 +1,15 @@
-import { PlusIcon, SearchIcon } from "lucide-react";
+import { AlertTriangleIcon, Loader2Icon, PackageOpenIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Input } from "./ui/input";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "./ui/empty";
 
 type HeaderProps = {
   title: string;
@@ -139,5 +147,58 @@ export const EntityPagination = ({
         </Button>
       </div>
     </div>
+  );
+};
+
+
+
+interface StateViewProps {
+  message?: string;
+}
+
+export const LoadingView = ({ message }: StateViewProps) => {
+  return (
+    <div className="flex items-center justify-center h-full gap-y-4 ">
+      <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
+
+      {!!message && <p className="text-sm text-primary">{message}</p>}
+    </div>
+  );
+};
+
+interface ErrorViewProps {
+  message?: string;
+}
+
+export const ErrorView = ({ message }: ErrorViewProps) => {
+  return (
+    <div className="flex items-center justify-center h-full gap-y-4 ">
+      <AlertTriangleIcon className="size-6  text-muted-foreground" />
+
+      {!!message && <p className="text-sm text-primary">{message}</p>}
+    </div>
+  );
+};
+
+interface EmptyViewProps extends StateViewProps {
+  onNew?: () => void;
+}
+
+export const EmptyView = ({ message, onNew }: EmptyViewProps) => {
+  return (
+    <Empty className="border border-dashed bg-white">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <PackageOpenIcon />
+        </EmptyMedia>
+        <EmptyTitle>No Items</EmptyTitle>
+        {!!message && <EmptyDescription>{message}</EmptyDescription>}
+        {!!onNew && (
+          <EmptyContent>
+            <Button onClick={onNew}>Add New</Button>
+          </EmptyContent>
+        )}
+      </EmptyHeader>
+    </Empty>
   );
 };
