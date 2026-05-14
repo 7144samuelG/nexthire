@@ -1,7 +1,7 @@
+import { DashboardView } from "@/features/dashboard/views/dashboard-view";
+
 const Dashboard = () => {
-    return ( 
-        <div className="">dashboard</div>
-     );
+    return <DashboardView />;
 }
  
 export default Dashboard;
