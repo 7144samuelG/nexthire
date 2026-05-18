@@ -5,9 +5,87 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum WorkMode {
+  REMOTE
+  HYBRID
+  OFFSITE
+}
+
+
+model Job {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Basic Info
+  title           String
+  companyName     String
+  description     String   @db.Text
+  
+  // Logistics
+  location        String
+  workMode        WorkMode @default(OFFSITE) // Enum: REMOTE, HYBRID, OFFSITE
+  employmentType  String   // e.g., "Full-time"
+  
+  // Compensation (using Int or Decimal for precision)
+  salaryMin       Int?
+  salaryMax       Int?
+  currency        String   @default("USD")
+  
+  // AI-Ready Fields
+  skillsRequired  String[] // Array of strings for easy AI filtering
+  requirements    String   @db.Text
+  deadline        DateTime?
+  
+  // Application Handling
+  formSlug        String   @unique // The unique URL you'll share (e.g., nexthire.com/apply/job-xyz)
+  applications    Application[]
+  
+  // Relations (Assuming you have a User model for the recruiter)
+  orgId        String
+
+   @@index([orgId])
+  @@index([orgId, createdAt, deadline]) // For efficient querying of active jobs for an organization
+}
+
+model Application {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  
+  // Link to the Job being applied for
+  jobId         String
+  job           Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  // Basic Applicant Info
+  applicantName  String
+  applicantEmail String
+  resumeUrl      String   // URL to the file stored in S3, Uploadthing, etc.
+  
+  // The Dynamic Data
+  // This stores the answers from the form you generated (JSON format)
+  formData       Json     
+
+  // AI & Review Status
+  status         ApplicationStatus @default(PENDING)
+  aiScore        Float?            // AI-generated score (e.g., 0.0 to 100.0)
+  aiSummary      String?           @db.Text // AI-generated summary of why they fit
+  
+  // Tracking
+  @@index([jobId])
+  @@index([applicantEmail])
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  INTERVIEWED
+  HIRED
+  REJECTED
 }

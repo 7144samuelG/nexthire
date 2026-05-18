@@ -1,4 +1,5 @@
-import { initTRPC } from '@trpc/server';
+import { auth } from '@clerk/nextjs/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
  
 export const createTRPCContext = cache(async () => {
@@ -23,3 +24,21 @@ const t = initTRPC.create({
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
+
+
+export const orgProcedure = baseProcedure.use(async ({ next }) => {
+  const { userId, orgId } = await auth();
+
+  if (!userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  if (!orgId) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Organization required",
+    });
+  }
+
+  return next({ ctx: { userId, orgId } });
+});
