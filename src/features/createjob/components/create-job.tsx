@@ -129,7 +129,7 @@ const inputStyle: React.CSSProperties = {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function CreateJobForm({ onSubmit, onSaveDraft, onBack }: CreateJobFormProps) {
+export const CreateJobForm=({ onSubmit, onSaveDraft, onBack }: CreateJobFormProps)=> {
   const [values, setValues] = useState<JobFormValues>({
     title: "", companyName: "", description: "", formSlug: "",
     location: "", employmentType: "", workMode: null,

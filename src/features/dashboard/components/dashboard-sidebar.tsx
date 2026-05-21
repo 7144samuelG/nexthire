@@ -27,6 +27,7 @@ import {
   Users,
   BarChart2,
   Bell,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 // import { UsageContainer } from "@/features/billing/components/usage-container";
@@ -103,8 +104,13 @@ export function DashboardSidebar() {
     },
     {
       title: "Explore MyJobs",
-      url: "/myjobs",
+      url: "/new",
       icon: Briefcase,
+    },
+    {
+      title: "Create Job",
+      url: "/new-job",
+      icon: Plus,
     },
     {
       title: "Candinates",

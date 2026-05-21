@@ -121,7 +121,7 @@ export const JobStatsCards=()=> {
           font-family: 'DM Sans', sans-serif;
           display: flex;
           flex-direction: column;
-          align-items: center;
+          align-items: center; 
           justify-content: center;
           padding: 48px 24px;
         }
