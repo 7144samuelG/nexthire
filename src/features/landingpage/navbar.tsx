@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Brain, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -12,6 +13,7 @@ const navLinks = [
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userId } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 border-b border-gray-300">
@@ -39,13 +41,15 @@ export const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-4">
-            <Button asChild type="button" className="p-2">
-              <Link href="/sign-in">Sign In</Link>
-            </Button>
-
-            <Button variant="default" type="button" className="p-2 " asChild>
-              <Link href="/dashboard">Get Started</Link>
-            </Button>
+            {userId ? (
+              <Button asChild type="button" className="p-2">
+                <Link href="/dashboard">Get Started</Link>
+              </Button>
+            ) : (
+              <Button variant="default" type="button" className="p-2 " asChild>
+                <Link href="/sign-in">Sign IN</Link>
+              </Button>
+            )}
           </div>
 
           <Button
@@ -76,19 +80,20 @@ export const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-primary-foreground/10">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className=" justify-start"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  type="button"
-                  className=""
-                >
-                  <Link href="/dashboard">Get Started</Link>
-                </Button>
+                {userId ? (
+                  <Button asChild type="button" className="p-2">
+                    <Link href="/dashboard">Get Started</Link>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="default"
+                    type="button"
+                    className="p-2 "
+                    asChild
+                  >
+                    <Link href="/sign-in">Sign IN</Link>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
