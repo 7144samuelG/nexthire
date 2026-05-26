@@ -266,7 +266,7 @@ export type JobGroupByOutputType = {
   currency: string
   skillsRequired: string[]
   requirements: string
-  deadline: Date | null
+  deadline: Date
   formSlug: string
   orgId: string
   _count: JobCountAggregateOutputType | null
@@ -309,7 +309,7 @@ export type JobWhereInput = {
   currency?: Prisma.StringFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeFilter<"Job"> | Date | string
   formSlug?: Prisma.StringFilter<"Job"> | string
   orgId?: Prisma.StringFilter<"Job"> | string
   applications?: Prisma.ApplicationListRelationFilter
@@ -330,7 +330,7 @@ export type JobOrderByWithRelationInput = {
   currency?: Prisma.SortOrder
   skillsRequired?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
-  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   formSlug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
@@ -355,7 +355,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
   currency?: Prisma.StringFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeFilter<"Job"> | Date | string
   orgId?: Prisma.StringFilter<"Job"> | string
   applications?: Prisma.ApplicationListRelationFilter
 }, "id" | "formSlug">
@@ -375,7 +375,7 @@ export type JobOrderByWithAggregationInput = {
   currency?: Prisma.SortOrder
   skillsRequired?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
-  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   formSlug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   _count?: Prisma.JobCountOrderByAggregateInput
@@ -403,7 +403,7 @@ export type JobScalarWhereWithAggregatesInput = {
   currency?: Prisma.StringWithAggregatesFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringWithAggregatesFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableWithAggregatesFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeWithAggregatesFilter<"Job"> | Date | string
   formSlug?: Prisma.StringWithAggregatesFilter<"Job"> | string
   orgId?: Prisma.StringWithAggregatesFilter<"Job"> | string
 }
@@ -423,7 +423,7 @@ export type JobCreateInput = {
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline?: Date | string
   formSlug: string
   orgId: string
   applications?: Prisma.ApplicationCreateNestedManyWithoutJobInput
@@ -444,7 +444,7 @@ export type JobUncheckedCreateInput = {
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline?: Date | string
   formSlug: string
   orgId: string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutJobInput
@@ -465,7 +465,7 @@ export type JobUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   applications?: Prisma.ApplicationUpdateManyWithoutJobNestedInput
@@ -486,7 +486,7 @@ export type JobUncheckedUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutJobNestedInput
@@ -507,7 +507,7 @@ export type JobCreateManyInput = {
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline?: Date | string
   formSlug: string
   orgId: string
 }
@@ -527,7 +527,7 @@ export type JobUpdateManyMutationInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -547,7 +547,7 @@ export type JobUncheckedUpdateManyInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -662,10 +662,6 @@ export type JobUpdateskillsRequiredInput = {
   push?: string | string[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type JobCreateNestedOneWithoutApplicationsInput = {
   create?: Prisma.XOR<Prisma.JobCreateWithoutApplicationsInput, Prisma.JobUncheckedCreateWithoutApplicationsInput>
   connectOrCreate?: Prisma.JobCreateOrConnectWithoutApplicationsInput
@@ -695,7 +691,7 @@ export type JobCreateWithoutApplicationsInput = {
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline?: Date | string
   formSlug: string
   orgId: string
 }
@@ -715,7 +711,7 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline?: Date | string
   formSlug: string
   orgId: string
 }
@@ -751,7 +747,7 @@ export type JobUpdateWithoutApplicationsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -771,7 +767,7 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -917,7 +913,7 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     currency: string
     skillsRequired: string[]
     requirements: string
-    deadline: Date | null
+    deadline: Date
     formSlug: string
     orgId: string
   }, ExtArgs["result"]["job"]>

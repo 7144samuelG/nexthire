@@ -119,14 +119,15 @@ export const jobsRouter = createTRPCRouter({
           companyName:    input.companyName,
           description:    input.description,
           location:       input.location,
-          workMode:       input.workMode,
+          workM
+ode:       input.workMode,
           employmentType: input.employmentType,
           salaryMin:      input.salaryMin   ?? null,
           salaryMax:      input.salaryMax   ?? null,
           currency:       input.currency,
           skillsRequired: input.skillsRequired,
           requirements:   input.requirements,
-          deadline:       input.deadline    ?? null,
+         
           formSlug:       ctx.orgId + "-" + Date.now(), // simple unique slug generation
           orgId,
         },

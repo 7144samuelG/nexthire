@@ -4,6 +4,9 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { TRPCReactProvider } from "@/trpc/client";
+
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
@@ -31,8 +34,8 @@ export default function RootLayout({
 }>) {
   return (
     <TooltipProvider>
-
     <ClerkProvider>
+  <TRPCReactProvider>
       <html
         lang="en"
         className={cn(
@@ -46,6 +49,7 @@ export default function RootLayout({
       >
         <body className="min-h-full flex flex-col">{children}</body>
       </html>
+      </TRPCReactProvider>
     </ClerkProvider>
     </TooltipProvider>
   );
