@@ -1,5 +1,6 @@
 "use client"
-import { CreateJobForm } from "../components/create-job";
+
+import { CreateJobForm } from "../components/create-job-form";
 
 export function CreateView() {
 
