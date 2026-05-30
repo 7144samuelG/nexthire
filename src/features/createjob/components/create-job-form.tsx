@@ -20,6 +20,7 @@ import {
   FieldDescription,
   FieldError,
 } from "@/components/ui/field";
+import { CardSection } from "./cardsection";
 
 // ─── Zod Schema ───────────────────────────────────────────────────────────────
 
@@ -91,34 +92,7 @@ const errorInput =
   "text-sm px-3 py-2 rounded-lg border border-red-400 bg-white text-gray-900 w-full outline-none focus:ring-2 focus:ring-red-100 transition-all placeholder:text-gray-400";
 const labelCls = "text-xs font-medium text-gray-500 flex items-center gap-1";
 
-// ─── CardSection ──────────────────────────────────────────────────────────────
 
-function CardSection({
-  icon,
-  title,
-  subtitle,
-  children,
-}: {
-  icon: string;
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden mb-3">
-      <div className="px-4 py-3 border-b border-gray-200 flex items-center gap-2.5">
-        <div className="w-7 h-7 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-base">
-          {icon}
-        </div>
-        <div>
-          <p className="text-sm font-medium text-gray-900">{title}</p>
-          <p className="text-xs text-gray-400">{subtitle}</p>
-        </div>
-      </div>
-      <div className="p-4 flex flex-col gap-4">{children}</div>
-    </div>
-  );
-}
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -143,7 +117,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
     },
   });
 
-  const { handleSubmit, watch, setValue, control } = form;
+  const { handleSubmit, watch, setValue } = form;
 
   const skillsRequired = watch("skillsRequired");
   const posterImage = watch("posterImage");
@@ -219,7 +193,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-gray-100 min-h-screen px-6 py-7 font-sans">
+    <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="bg-gray-100 min-h-screen px-6 py-7 font-sans">
       {/* Top bar */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
@@ -238,7 +212,8 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
         </div>
 
         <button
-          
+            type="button"
+              onClick={handleSubmit(onSubmit, onInvalid)}
           className="flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-lg border-none text-white transition-colors cursor-pointer"
           style={{ background: "#378ADD" }}
         >
@@ -728,6 +703,6 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
