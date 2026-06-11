@@ -21,6 +21,7 @@ import {
   FieldError,
 } from "@/components/ui/field";
 import { CardSection } from "./cardsection";
+import { useCreateNewJob } from "../hooks/use-jobflows";
 
 // ─── Zod Schema ───────────────────────────────────────────────────────────────
 
@@ -99,6 +100,7 @@ const labelCls = "text-xs font-medium text-gray-500 flex items-center gap-1";
 export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const create=useCreateNewJob();
 
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobFormSchema) as any,
@@ -183,6 +185,16 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
   // ── Submit ─────────────────────────────────────────────────────────────────
 
   const onSubmit = (data: JobFormValues) => {
+    const { posterImage, salaryMin, salaryMax, deadline, ...rest } = data;
+
+    create.mutateAsync(rest, {
+      onSuccess: (data) => {
+        router.push(`/jobs/${data.job.id}`);
+      },
+      onError: (error) => {
+        alert("failed to upload form");
+      },
+    });
     console.log("Job form submitted:", data);
   };
 

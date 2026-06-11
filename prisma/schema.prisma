@@ -31,20 +31,20 @@ model Job {
   
   // Logistics
   location        String
-  workMode        WorkMode @default(OFFSITE) // Enum: REMOTE, HYBRID, OFFSITE
-  employmentType  String   // e.g., "Full-time"
+  workMode        WorkMode? @default(OFFSITE) // Enum: REMOTE, HYBRID, OFFSITE
+  employmentType  String ?  // e.g., "Full-time"
   
   // Compensation (using Int or Decimal for precision)
-  salaryMin       Int?
-  salaryMax       Int?
+  salaryMin       String?
+  salaryMax       String?
   currency        String   @default("USD")
   
   // AI-Ready Fields
   skillsRequired  String[] // Array of strings for easy AI filtering
   requirements    String   @db.Text
-  deadline         DateTime @default(now())
+  deadline         DateTime?
   
-  // Application Handling
+  //Application Handling
   formSlug        String   @unique // The unique URL you'll share (e.g., nexthire.com/apply/job-xyz)
   applications    Application[]
   
@@ -52,7 +52,7 @@ model Job {
   orgId        String
 
    @@index([orgId])
-  @@index([orgId, createdAt, deadline]) // For efficient querying of active jobs for an organization
+   @@index([orgId, createdAt]) // For efficient querying of active jobs for an organization
 }
 
 model Application {

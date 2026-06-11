@@ -11,7 +11,7 @@ export const useCreateNewJob=()=>{
             onSuccess:(data)=>{
                 toast.success(` New job ${data.job.title} created`);
                 queryClient.invalidateQueries(
-                    trpc.jobs.getJobs.queryOptions({})
+                    // trpc.jobs.getJobs.queryOptions({})
                 )
             },
             onError:(error)=>{

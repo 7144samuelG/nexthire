@@ -519,10 +519,6 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type ApplicationCreateWithoutJobInput = {
   id?: string
   createdAt?: Date | string
