@@ -118,7 +118,7 @@ interface JobsDashboardProps {
   totalJobs?: number;
 }
 
-export default function JobsDashboard({ onViewJob, onViewAll, totalJobs = 28 }: JobsDashboardProps) {
+export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsDashboardProps) {
   const [query, setQuery] = useState("");
   const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 

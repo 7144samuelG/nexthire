@@ -3,40 +3,53 @@ import { createTRPCRouter, orgProcedure } from "../init";
 //import prisma from "@/lib/prisma";
 
 import prisma from "@/lib/prisma";
+import { PAGINATION } from "@/features/server/constants";
 
 export const jobsRouter = createTRPCRouter({
-  // getJobs: orgProcedure
-  //   .input(
-  //     z
-  //       .object({
-  //         query: z.string().trim().optional(),
-  //         page: z.number().int().min(1).default(1),
-  //         pageSize: z.number().int().min(1).max(100).default(20),
-  //       })
-  //       .optional()
-  //   )
-  //   .query(async ({ ctx, input }) => {
+  getJobs: orgProcedure
+    .input(
+      z.object({
+        page:z.number().default(PAGINATION.DEFAULT_PAGE),
+        page_size:z.number().min(PAGINATION.MIN_PAGE_SIZE).max(PAGINATION.MAX_PAGE_SIZE).default(PAGINATION.DEFAULT_PAGE_SIZE),
+        search:z.string().default("")        
+    })
+).query(async ({ ctx, input }) => {
   //     const now = new Date();
-  //     const searchString = input?.query;
-  //     const page = input?.page ?? 1;
-  //     const pageSize = 7;
-  //     const skip = (page - 1) * pageSize;
+  const{page,page_size,search}=input;
 
-  //     const baseWhere = {
-  //       orgId: ctx.orgId,
-  //       ...(searchString && {
-  //         OR: [
-  //           { title: { contains: searchString, mode: QueryMode.insensitive } },
-  //           {
-  //             companyName: {
-  //               contains: searchString,
-  //               mode: QueryMode.insensitive,
-  //             },
-  //           },
-  //           { skillsRequired: { hasSome: [searchString.toLowerCase()] } },
-  //         ],
-  //       }),
-  //     };
+      const[items,count]=await Promise.all([
+        prisma.job.findMany({
+          skip:(page-1)*page_size,
+                take:page_size,
+                where:{
+                    orgId:ctx.orgId,
+                    title:{
+                        contains:search,
+                        mode:"insensitive"
+                    }
+                },
+                orderBy:{
+                    createdAt:"desc"
+                }
+        }),
+        prisma.job.count({
+          where:{
+              orgId:ctx.orgId,
+          }
+      })
+      ])
+      const totalpages=Math.ceil(count/page_size);
+      const hasNextPage=page<totalpages;
+      const hasPreviousPage=page>1;
+     return {
+         totalpages,
+         hasNextPage,
+         hasPreviousPage,
+         items:items,
+         count,
+         page_size,
+         page
+     }
   //     const [upcoming, active, ended, paginated] = await prisma.$transaction([
   //       prisma.job.findMany({
   //         where: { ...baseWhere, createdAt: { gt: now } },
@@ -63,7 +76,7 @@ export const jobsRouter = createTRPCRouter({
   //     ]);
 
   //     return { upcoming, active, ended, paginated };
-  //   }),
+   }),
 
     //create job
     newJob: orgProcedure

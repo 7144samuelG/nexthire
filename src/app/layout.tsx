@@ -6,7 +6,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TRPCReactProvider } from "@/trpc/client";
 
-
+import { Toaster } from "../components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
@@ -47,7 +48,12 @@ export default function RootLayout({
           inter.variable
         )}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col">
+        <NuqsAdapter>
+            {children}
+            <Toaster />
+          </NuqsAdapter>
+        </body>
       </html>
       </TRPCReactProvider>
     </ClerkProvider>
