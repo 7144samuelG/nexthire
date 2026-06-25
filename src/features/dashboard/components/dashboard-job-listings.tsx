@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { CreateJobCard } from "./create-job-componet";
+import { EmptyView } from "@/components/empty-view";
 
 type Status = "active" | "closed" | "draft" | "review";
 
@@ -17,13 +19,6 @@ interface StatItem {
   up: boolean;
 }
 
-interface Job {
-  id: number;
-  title: string;
-  role: string;
-  date: string;
-  status: Status;
-}
 
 interface StatusConfig {
   label: string;
@@ -39,20 +34,8 @@ const STATUS_CONFIG: Record<Status, StatusConfig> = {
   review: { label: "In review", bg: "#FAEEDA", color: "#854F0B", dot: "#BA7517" },
 };
 
-const STATS: StatItem[] = [
-  { label: "Total jobs",  value: 248, desc: "All time",        badge: "All",  Icon: BriefcaseIcon, accent: "#378ADD", iconBg: "#E6F1FB", iconColor: "#0C447C", trend: "+12% this month", up: true  },
-  { label: "Active jobs", value: 134, desc: "Open & hiring",   badge: "Live", Icon: ClockIcon,     accent: "#1D9E75", iconBg: "#E1F5EE", iconColor: "#085041", trend: "+5 this week",    up: true  },
-  { label: "Closed jobs", value: 89,  desc: "Filled or expired", badge: "Done", Icon: CheckIcon,  accent: "#D85A30", iconBg: "#FAECE7", iconColor: "#712B13", trend: "−3 this week",    up: false },
-  { label: "Upcoming",    value: 25,  desc: "Scheduled soon",  badge: "Soon", Icon: BoltIcon,      accent: "#BA7517", iconBg: "#FAEEDA", iconColor: "#633806", trend: "+8 next week",   up: true  },
-];
 
-const JOBS: Job[] = [
-  { id: 1, title: "Senior Frontend Engineer", role: "Engineering",    date: "May 18, 2025", status: "active" },
-  { id: 2, title: "Product Designer",          role: "Design",         date: "May 15, 2025", status: "review" },
-  { id: 3, title: "Backend Engineer",          role: "Engineering",    date: "May 12, 2025", status: "active" },
-  { id: 4, title: "Marketing Lead",            role: "Marketing",      date: "May 10, 2025", status: "closed" },
-  { id: 5, title: "DevOps Engineer",           role: "Infrastructure", date: "May 5, 2025",  status: "draft"  },
-];
+
 
 function AnimatedNumber({ target }: { target: number }) {
   const [count, setCount] = useState(0);
@@ -69,8 +52,11 @@ function AnimatedNumber({ target }: { target: number }) {
   }, [target]);
   return <>{count}</>;
 }
+interface StartCard{
+  stat:StatItem;
+}
 
-function StatCard({ stat }: { stat: StatItem }) {
+function StatCard({ stat}:  StartCard ) {
   const pct = Math.round((stat.value / 248) * 100);
   return (
     <div style={{
@@ -101,8 +87,7 @@ function StatCard({ stat }: { stat: StatItem }) {
     </div>
   );
 }
-
-function StatusPill({ status }: { status: Status }) {
+export function StatusPill({ status }: { status: Status }) {
   const cfg = STATUS_CONFIG[status];
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 500, padding: "3px 9px", borderRadius: 20, background: cfg.bg, color: cfg.color }}>
@@ -112,20 +97,31 @@ function StatusPill({ status }: { status: Status }) {
   );
 }
 
-interface JobsDashboardProps {
-  onViewJob?: (job: Job) => void;
-  onViewAll?: () => void;
-  totalJobs?: number;
+interface JobsDashboardProps<T>{
+  renderItems: (item: T, index: number) => React.ReactNode;
+  totalJobs: number;
+  jobs:T[];
+  getKey?: (item: T, index: number) => string | number;
 }
 
-export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsDashboardProps) {
+export default function JobsDashboard<T>({renderItems,getKey,jobs, totalJobs }: JobsDashboardProps<T>) {
   const [query, setQuery] = useState("");
   const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
-  const filtered = JOBS.filter((j) =>
-    [j.title, j.role, j.status].some((f) => f.toLowerCase().includes(query.toLowerCase()))
-  );
-
+  if (jobs.length === 0) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-sm mx-auto">
+          <EmptyView message="no job available"/>
+        </div>
+      </div>
+    );
+  }
+  const STATS = [
+    { label: "Total jobs",  value: totalJobs, desc: "All time",        badge: "All",  Icon: BriefcaseIcon, accent: "#378ADD", iconBg: "#E6F1FB", iconColor: "#0C447C", trend: "+12% this month", up: true  },
+    { label: "Active jobs", value: 5, desc: "Open & hiring",   badge: "Live", Icon: ClockIcon,     accent: "#1D9E75", iconBg: "#E1F5EE", iconColor: "#085041", trend: "+5 this week",    up: true  },
+    { label: "Closed jobs", value: 0,  desc: "Filled or expired", badge: "Done", Icon: CheckIcon,  accent: "#D85A30", iconBg: "#FAECE7", iconColor: "#712B13", trend: "−3 this week",    up: false }
+  ];
   return (
     <div style={{ background: "#F3F4F6", minHeight: "100vh", padding: "32px 24px", fontFamily: "inherit" }}>
 
@@ -140,7 +136,8 @@ export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsD
 
       {/* Stats grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 24 }}>
-        {STATS.map((s) => <StatCard key={s.label} stat={s} />)}
+        {STATS.map((s) => <StatCard key={s.label} stat={s}/>)}
+        <CreateJobCard onCreateJob={() => { /* wire to your modal/route */ }} />
       </div>
 
       {/* Table section header */}
@@ -154,7 +151,7 @@ export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsD
             <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 1 }}>Your 5 latest listings</div>
           </div>
           <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "#fff", border: "0.5px solid #E5E7EB", color: "#6B7280", fontWeight: 500 }}>
-            {filtered.length} job{filtered.length !== 1 ? "s" : ""}
+            {totalJobs} job{totalJobs !== 1 ? "s" : ""}
           </span>
         </div>
 
@@ -190,30 +187,11 @@ export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsD
             </tr>
           </thead>
           <tbody>
-            {filtered.length > 0 ? (
-              filtered.map((job, idx) => (
-                <tr key={job.id} style={{ borderBottom: idx === filtered.length - 1 ? "none" : "0.5px solid #F3F4F6" }}>
-                  <td style={{ padding: "12px 14px" }}>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>{job.title}</div>
-                    <div style={{ fontSize: 11, color: "#9CA3AF" }}>{job.role}</div>
-                  </td>
-                  <td style={{ padding: "12px 14px" }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#6B7280" }}>
-                      <CalendarIcon />
-                      {job.date}
-                    </span>
-                  </td>
-                  <td style={{ padding: "12px 14px" }}>
-                    <StatusPill status={job.status} />
-                  </td>
-                  <td style={{ padding: "12px 14px", textAlign: "right" }}>
-                    <button
-                      onClick={() => onViewJob?.(job)}
-                      style={{ fontSize: 11, fontWeight: 500, padding: "5px 11px", borderRadius: 6, border: "0.5px solid #D1D5DB", background: "transparent", color: "#6B7280", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4 }}
-                    >
-                      <EyeIcon /> View
-                    </button>
-                  </td>
+            {totalJobs > 0 ? (
+              jobs.map((job, index) => (
+                <tr  key={getKey ? getKey(job, index) : index} style={{ borderBottom: index === totalJobs - 1 ? "none" : "0.5px solid #F3F4F6" }}>
+                {renderItems(job, index)}
+                  
                 </tr>
               ))
             ) : (
@@ -230,7 +208,7 @@ export default function JobsDashboard({ onViewJob, onViewAll, totalJobs }: JobsD
         <div style={{ padding: "11px 14px", borderTop: "0.5px solid #F3F4F6", background: "#F9FAFB", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontSize: 11, color: "#9CA3AF" }}>Showing 5 of {totalJobs} jobs</span>
           <button
-            onClick={onViewAll}
+           
             style={{ fontSize: 12, fontWeight: 500, padding: "6px 16px", borderRadius: 7, border: "0.5px solid #D1D5DB", background: "#fff", color: "#374151", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 5 }}
           >
             View all <ArrowRightIcon />
