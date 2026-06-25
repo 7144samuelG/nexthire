@@ -1,7 +1,7 @@
 // import { PageHeader } from "@/components/page-header";
 // import { DashboardHeader } from "../components/dashboard-header";
 "use client";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 import JobsDashboard from "../components/dashboard-job-listings";
 import { useSuspenseJobs } from "../hooks/use-jobs";
 import { Job } from "@/generated/prisma/client";
@@ -11,7 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 // import { JobStatsCards } from "../components/dashboard-jobs";
 
 export function DashboardView() {
-  const router = useRouter();
+  // const router = useRouter();
   const jobs=useSuspenseJobs()
   return (
     <div className="relative">
