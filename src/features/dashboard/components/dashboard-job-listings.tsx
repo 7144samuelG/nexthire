@@ -110,10 +110,25 @@ export default function JobsDashboard<T>({renderItems,getKey,jobs, totalJobs }: 
 
   if (jobs.length === 0) {
     return (
+      <div style={{ background: "#F3F4F6", minHeight: "100vh", padding: "32px 24px", fontFamily: "inherit" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 24 }}>
+        <div>
+          <h1 style={{ fontSize: 18, fontWeight: 500, color: "#111827", margin: 0 }}>Jobs overview</h1>
+          <p style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4, marginBottom: 0 }}>Track and manage all your job postings</p>
+        </div>
+        <span style={{ fontSize: 12, color: "#9CA3AF" }}>{today}</span>
+      </div>
+
+      {/* Stats grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 24 }}>
+        {STATS.map((s) => <StatCard key={s.label} stat={s}/>)}
+        <CreateJobCard onCreateJob={() => { /* wire to your modal/route */ }} />
+      </div>
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-sm mx-auto">
           <EmptyView message="no job available"/>
         </div>
+      </div>
       </div>
     );
   }
