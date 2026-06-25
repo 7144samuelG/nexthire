@@ -107,6 +107,11 @@ interface JobsDashboardProps<T>{
 export default function JobsDashboard<T>({renderItems,getKey,jobs, totalJobs }: JobsDashboardProps<T>) {
   const [query, setQuery] = useState("");
   const today = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  const STATS = [
+    { label: "Total jobs",  value: totalJobs, desc: "All time",        badge: "All",  Icon: BriefcaseIcon, accent: "#378ADD", iconBg: "#E6F1FB", iconColor: "#0C447C", trend: "+12% this month", up: true  },
+    { label: "Active jobs", value: 5, desc: "Open & hiring",   badge: "Live", Icon: ClockIcon,     accent: "#1D9E75", iconBg: "#E1F5EE", iconColor: "#085041", trend: "+5 this week",    up: true  },
+    { label: "Closed jobs", value: 0,  desc: "Filled or expired", badge: "Done", Icon: CheckIcon,  accent: "#D85A30", iconBg: "#FAECE7", iconColor: "#712B13", trend: "−3 this week",    up: false }
+  ];
 
   if (jobs.length === 0) {
     return (
@@ -132,11 +137,7 @@ export default function JobsDashboard<T>({renderItems,getKey,jobs, totalJobs }: 
       </div>
     );
   }
-  const STATS = [
-    { label: "Total jobs",  value: totalJobs, desc: "All time",        badge: "All",  Icon: BriefcaseIcon, accent: "#378ADD", iconBg: "#E6F1FB", iconColor: "#0C447C", trend: "+12% this month", up: true  },
-    { label: "Active jobs", value: 5, desc: "Open & hiring",   badge: "Live", Icon: ClockIcon,     accent: "#1D9E75", iconBg: "#E1F5EE", iconColor: "#085041", trend: "+5 this week",    up: true  },
-    { label: "Closed jobs", value: 0,  desc: "Filled or expired", badge: "Done", Icon: CheckIcon,  accent: "#D85A30", iconBg: "#FAECE7", iconColor: "#712B13", trend: "−3 this week",    up: false }
-  ];
+ 
   return (
     <div style={{ background: "#F3F4F6", minHeight: "100vh", padding: "32px 24px", fontFamily: "inherit" }}>
 
