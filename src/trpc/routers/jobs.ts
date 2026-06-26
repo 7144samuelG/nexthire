@@ -14,10 +14,10 @@ export const jobsRouter = createTRPCRouter({
         search:z.string().default("")        
     })
 ).query(async ({ ctx, input }) => {
-  //     const now = new Date();
+    const now = new Date();
   const{page,page_size,search}=input;
 
-      const[items,count]=await Promise.all([
+      const[items,count,ended,active]=await Promise.all([
         prisma.job.findMany({
           skip:(page-1)*page_size,
                 take:page_size,
@@ -36,7 +36,23 @@ export const jobsRouter = createTRPCRouter({
           where:{
               orgId:ctx.orgId,
           }
-      })
+      }),
+      prisma.job.count({
+        where:{
+            orgId:ctx.orgId,
+            deadline:{
+                lte:now
+            }
+        } }),
+
+        prisma.job.count({
+          where: {
+            orgId:ctx.orgId,
+            createdAt: { lte: now },
+            deadline: { gt: now },
+          },
+          orderBy: { deadline: "asc" },
+        }),
       ])
       const totalpages=Math.ceil(count/page_size);
       const hasNextPage=page<totalpages;
@@ -48,34 +64,11 @@ export const jobsRouter = createTRPCRouter({
          items:items,
          count,
          page_size,
-         page
+         page,
+         ended,
+         active
      }
-  //     const [upcoming, active, ended, paginated] = await prisma.$transaction([
-  //       prisma.job.findMany({
-  //         where: { ...baseWhere, createdAt: { gt: now } },
-  //         orderBy: { createdAt: "asc" },
-  //       }),
-  //       prisma.job.findMany({
-  //         where: {
-  //           ...baseWhere,
-  //           createdAt: { lte: now },
-  //           deadline: { gt: now },
-  //         },
-  //         orderBy: { deadline: "asc" },
-  //       }),
-  //       prisma.job.findMany({
-  //         where: { ...baseWhere, deadline: { lte: now } },
-  //         orderBy: { deadline: "desc" },
-  //       }),
-  //       prisma.job.findMany({
-  //         where: baseWhere,
-  //         orderBy: { createdAt: "desc" }, // newest first
-  //         skip,
-  //         take: pageSize,
-  //       }),
-  //     ]);
-
-  //     return { upcoming, active, ended, paginated };
+  
    }),
 
     //create job

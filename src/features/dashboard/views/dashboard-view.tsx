@@ -26,6 +26,8 @@ export function DashboardView() {
       renderItems={(job)=><JobItem data={job}/>}
       totalJobs={jobs.data?.count ?? 0}
       jobs={jobs.data.items}
+      active={jobs.data.active}
+      ended={jobs.data.ended}
     /> 
         </div> 
       {/* <div className="flex h-screen  items-center justify-center ">
