@@ -225,12 +225,12 @@ export type JobGroupByOutputType = {
   location: string
   workMode: $Enums.WorkMode | null
   employmentType: string | null
-  salaryMin: string | null
-  salaryMax: string | null
+  salaryMin: string
+  salaryMax: string
   currency: string
   skillsRequired: string[]
   requirements: string
-  deadline: Date | null
+  deadline: Date
   formSlug: string
   orgId: string
   _count: JobCountAggregateOutputType | null
@@ -266,12 +266,12 @@ export type JobWhereInput = {
   location?: Prisma.StringFilter<"Job"> | string
   workMode?: Prisma.EnumWorkModeNullableFilter<"Job"> | $Enums.WorkMode | null
   employmentType?: Prisma.StringNullableFilter<"Job"> | string | null
-  salaryMin?: Prisma.StringNullableFilter<"Job"> | string | null
-  salaryMax?: Prisma.StringNullableFilter<"Job"> | string | null
+  salaryMin?: Prisma.StringFilter<"Job"> | string
+  salaryMax?: Prisma.StringFilter<"Job"> | string
   currency?: Prisma.StringFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeFilter<"Job"> | Date | string
   formSlug?: Prisma.StringFilter<"Job"> | string
   orgId?: Prisma.StringFilter<"Job"> | string
   applications?: Prisma.ApplicationListRelationFilter
@@ -287,12 +287,12 @@ export type JobOrderByWithRelationInput = {
   location?: Prisma.SortOrder
   workMode?: Prisma.SortOrderInput | Prisma.SortOrder
   employmentType?: Prisma.SortOrderInput | Prisma.SortOrder
-  salaryMin?: Prisma.SortOrderInput | Prisma.SortOrder
-  salaryMax?: Prisma.SortOrderInput | Prisma.SortOrder
+  salaryMin?: Prisma.SortOrder
+  salaryMax?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   skillsRequired?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
-  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   formSlug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
@@ -312,12 +312,12 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
   location?: Prisma.StringFilter<"Job"> | string
   workMode?: Prisma.EnumWorkModeNullableFilter<"Job"> | $Enums.WorkMode | null
   employmentType?: Prisma.StringNullableFilter<"Job"> | string | null
-  salaryMin?: Prisma.StringNullableFilter<"Job"> | string | null
-  salaryMax?: Prisma.StringNullableFilter<"Job"> | string | null
+  salaryMin?: Prisma.StringFilter<"Job"> | string
+  salaryMax?: Prisma.StringFilter<"Job"> | string
   currency?: Prisma.StringFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeFilter<"Job"> | Date | string
   orgId?: Prisma.StringFilter<"Job"> | string
   applications?: Prisma.ApplicationListRelationFilter
 }, "id" | "formSlug">
@@ -332,12 +332,12 @@ export type JobOrderByWithAggregationInput = {
   location?: Prisma.SortOrder
   workMode?: Prisma.SortOrderInput | Prisma.SortOrder
   employmentType?: Prisma.SortOrderInput | Prisma.SortOrder
-  salaryMin?: Prisma.SortOrderInput | Prisma.SortOrder
-  salaryMax?: Prisma.SortOrderInput | Prisma.SortOrder
+  salaryMin?: Prisma.SortOrder
+  salaryMax?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   skillsRequired?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
-  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   formSlug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   _count?: Prisma.JobCountOrderByAggregateInput
@@ -358,12 +358,12 @@ export type JobScalarWhereWithAggregatesInput = {
   location?: Prisma.StringWithAggregatesFilter<"Job"> | string
   workMode?: Prisma.EnumWorkModeNullableWithAggregatesFilter<"Job"> | $Enums.WorkMode | null
   employmentType?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
-  salaryMin?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
-  salaryMax?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
+  salaryMin?: Prisma.StringWithAggregatesFilter<"Job"> | string
+  salaryMax?: Prisma.StringWithAggregatesFilter<"Job"> | string
   currency?: Prisma.StringWithAggregatesFilter<"Job"> | string
   skillsRequired?: Prisma.StringNullableListFilter<"Job">
   requirements?: Prisma.StringWithAggregatesFilter<"Job"> | string
-  deadline?: Prisma.DateTimeNullableWithAggregatesFilter<"Job"> | Date | string | null
+  deadline?: Prisma.DateTimeWithAggregatesFilter<"Job"> | Date | string
   formSlug?: Prisma.StringWithAggregatesFilter<"Job"> | string
   orgId?: Prisma.StringWithAggregatesFilter<"Job"> | string
 }
@@ -378,12 +378,12 @@ export type JobCreateInput = {
   location: string
   workMode?: $Enums.WorkMode | null
   employmentType?: string | null
-  salaryMin?: string | null
-  salaryMax?: string | null
+  salaryMin: string
+  salaryMax: string
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline: Date | string
   formSlug: string
   orgId: string
   applications?: Prisma.ApplicationCreateNestedManyWithoutJobInput
@@ -399,12 +399,12 @@ export type JobUncheckedCreateInput = {
   location: string
   workMode?: $Enums.WorkMode | null
   employmentType?: string | null
-  salaryMin?: string | null
-  salaryMax?: string | null
+  salaryMin: string
+  salaryMax: string
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline: Date | string
   formSlug: string
   orgId: string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutJobInput
@@ -420,12 +420,12 @@ export type JobUpdateInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   applications?: Prisma.ApplicationUpdateManyWithoutJobNestedInput
@@ -441,12 +441,12 @@ export type JobUncheckedUpdateInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutJobNestedInput
@@ -462,12 +462,12 @@ export type JobCreateManyInput = {
   location: string
   workMode?: $Enums.WorkMode | null
   employmentType?: string | null
-  salaryMin?: string | null
-  salaryMax?: string | null
+  salaryMin: string
+  salaryMax: string
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline: Date | string
   formSlug: string
   orgId: string
 }
@@ -482,12 +482,12 @@ export type JobUpdateManyMutationInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -502,12 +502,12 @@ export type JobUncheckedUpdateManyInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -608,10 +608,6 @@ export type JobUpdateskillsRequiredInput = {
   push?: string | string[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type JobCreateNestedOneWithoutApplicationsInput = {
   create?: Prisma.XOR<Prisma.JobCreateWithoutApplicationsInput, Prisma.JobUncheckedCreateWithoutApplicationsInput>
   connectOrCreate?: Prisma.JobCreateOrConnectWithoutApplicationsInput
@@ -636,12 +632,12 @@ export type JobCreateWithoutApplicationsInput = {
   location: string
   workMode?: $Enums.WorkMode | null
   employmentType?: string | null
-  salaryMin?: string | null
-  salaryMax?: string | null
+  salaryMin: string
+  salaryMax: string
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline: Date | string
   formSlug: string
   orgId: string
 }
@@ -656,12 +652,12 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
   location: string
   workMode?: $Enums.WorkMode | null
   employmentType?: string | null
-  salaryMin?: string | null
-  salaryMax?: string | null
+  salaryMin: string
+  salaryMax: string
   currency?: string
   skillsRequired?: Prisma.JobCreateskillsRequiredInput | string[]
   requirements: string
-  deadline?: Date | string | null
+  deadline: Date | string
   formSlug: string
   orgId: string
 }
@@ -692,12 +688,12 @@ export type JobUpdateWithoutApplicationsInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -712,12 +708,12 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   workMode?: Prisma.NullableEnumWorkModeFieldUpdateOperationsInput | $Enums.WorkMode | null
   employmentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryMax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryMin?: Prisma.StringFieldUpdateOperationsInput | string
+  salaryMax?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   skillsRequired?: Prisma.JobUpdateskillsRequiredInput | string[]
   requirements?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   formSlug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -858,12 +854,12 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     location: string
     workMode: $Enums.WorkMode | null
     employmentType: string | null
-    salaryMin: string | null
-    salaryMax: string | null
+    salaryMin: string
+    salaryMax: string
     currency: string
     skillsRequired: string[]
     requirements: string
-    deadline: Date | null
+    deadline: Date
     formSlug: string
     orgId: string
   }, ExtArgs["result"]["job"]>

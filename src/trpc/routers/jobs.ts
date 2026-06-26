@@ -100,46 +100,31 @@ export const jobsRouter = createTRPCRouter({
         // AI-ready fields
         skillsRequired: z.array(z.string().min(1).max(255)).min(1),
         requirements:   z.string().min(1),
-       // deadline:       z.date().optional()
+        deadline:        z.string()
+        .min(1, "Deadline is required")
+        .refine((val) => !isNaN(Date.parse(val)), { message: "Invalid date format" })
+        .transform((val) => new Date(val)),
       })
-      // Ensure salaryMax >= salaryMin when both are provided
-      // .refine(
-      //   (data) =>
-      //     data.salaryMin === undefined ||
-      //     data.salaryMax === undefined ||
-      //     data.salaryMax >= data.salaryMin,
-      //   {
-      //     message: "salaryMax must be greater than or equal to salaryMin",
-      //     path: ["salaryMax"],
-      //   }
-      // )
+     
     )
     .mutation(async ({ ctx, input }) => {
       const orgId = ctx.orgId; 
  
-      // 2. Guard: deadline must be in the future
-      // if (input.deadline && input.deadline <= new Date()) {
-      //   throw new TRPCError({
-      //     code:    "BAD_REQUEST",
-      //     message: "Deadline must be a future date.",
-      //   });
-      // }
- 
-      // 3. Create the job
-      console.log("Creating job with data:", input,orgId);
+   
       const job = await prisma.job.create({
         data: {
           title:          input.title,
           companyName:    input.companyName,
           description:    input.description,
           location:       input.location,
-
+          workMode:       input.workMode,
           employmentType: input.employmentType,
           salaryMin:      input.salaryMin,
           salaryMax:      input.salaryMax,
           currency:       input.currency,
           skillsRequired: input.skillsRequired,
           requirements:   input.requirements,
+          deadline:       input.deadline,
           orgId:orgId.toString(),
           formSlug:       `apply at ${ctx.orgId.toString()} + "-" + ${Date.now().toString()}`, // simple unique slug generation
         

@@ -39,19 +39,36 @@ const jobFormSchema = z
       message: "Please select a work mode" }
     ),
     currency: z.string().default("USD"),
-    salaryMin: z.string().default(""),
-    salaryMax: z.string().default(""),
+    salaryMin: z.string().min(1, "Minimum salary is required"),
+    salaryMax: z.string().min(1, "Maximum salary is required"),
     skillsRequired: z.array(z.string()).min(1, "Add at least one skill"),
     requirements: z.string().min(11, "Please provide more detail"),
-    deadline: z.string().default(""),
+    deadline: z.string().min(1, "Application deadline is required"),
     posterImage: z.string().nullable().optional(),
-  })
+  }).refine(
+    (data) => {
+      const min = parseFloat(data.salaryMin);
+      const max = parseFloat(data.salaryMax);
+      if (isNaN(min) || isNaN(max)) return true;
+      return min >= 0;
+    },
+    { message: "Salary cannot be negative", path: ["salaryMin"] }
+  )
   .refine(
     (data) =>
       !data.salaryMin ||
       !data.salaryMax ||
       parseInt(data.salaryMax) >= parseInt(data.salaryMin),
-    { message: "Must be ≥ minimum salary", path: ["salaryMax"] }
+    { message: "Maximum salary must be greater than or equal to minimum", path: ["salaryMax"] }
+  ) .refine(
+    (data) => {
+      if (!data.deadline) return false;
+      const date = new Date(data.deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // compare date only, ignore time
+      return date >= today;
+    },
+    { message: "Deadline must be today or a future date", path: ["deadline"] }
   );
 
 type JobFormValues = z.infer<typeof jobFormSchema>;
@@ -104,11 +121,14 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
 
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobFormSchema) as any,
+    mode: "onChange",
     defaultValues: {
       title: "",
       companyName: "",
       description: "",
       location: "",
+      employmentType: "Full-time",
+      workMode: "REMOTE",
       currency: "USD",
       salaryMin: "",
       salaryMax: "",
@@ -118,7 +138,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
       posterImage: null,
     },
   });
-
+  const { isValid, isDirty } = form.formState;
   const { handleSubmit, watch, setValue } = form;
 
   const skillsRequired = watch("skillsRequired");
@@ -185,7 +205,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
   // ── Submit ─────────────────────────────────────────────────────────────────
 
   const onSubmit = (data: JobFormValues) => {
-    const { posterImage, salaryMin, salaryMax, deadline, ...rest } = data;
+    const { posterImage, ...rest } = data;
 
     create.mutateAsync(rest, {
       onSuccess: (data) => {
@@ -666,6 +686,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
                   />
                   <button
                     type="button"
+                    disabled={!isValid}
                     onClick={() => setValue("posterImage", null)}
                     className="text-xs font-medium text-red-700 cursor-pointer bg-transparent border-none p-0 mt-1.5 flex items-center gap-1 hover:text-red-900 transition-colors"
                   >

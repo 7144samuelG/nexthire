@@ -35,14 +35,14 @@ model Job {
   employmentType  String ?  // e.g., "Full-time"
   
   // Compensation (using Int or Decimal for precision)
-  salaryMin       String?
-  salaryMax       String?
+  salaryMin       String
+  salaryMax       String
   currency        String   @default("USD")
   
   // AI-Ready Fields
   skillsRequired  String[] // Array of strings for easy AI filtering
   requirements    String   @db.Text
-  deadline         DateTime?
+  deadline         DateTime
   
   //Application Handling
   formSlug        String   @unique // The unique URL you'll share (e.g., nexthire.com/apply/job-xyz)
