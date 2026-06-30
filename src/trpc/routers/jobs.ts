@@ -20,7 +20,7 @@ export const jobsRouter = createTRPCRouter({
       const now = new Date();
       const { page, page_size, search } = input;
 
-      const [items, count, ended, active] = await Promise.all([
+      const [items, count,ended, active] = await Promise.all([
         prisma.job.findMany({
           skip: (page - 1) * page_size,
           take: page_size,
@@ -55,6 +55,7 @@ export const jobsRouter = createTRPCRouter({
             deadline: { gte: now },
           },
         }),
+     
       ]);
       const totalpages = Math.ceil(count / page_size);
       const hasNextPage = page < totalpages;

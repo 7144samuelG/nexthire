@@ -4,6 +4,7 @@ import { useSuspenseJobs } from "../hooks/use-jobs";
 import { Job } from "@/generated/prisma/client";
 import { JobItems } from "../components/job-item";
 import { formatDistanceToNow } from "date-fns";
+import { deriveStatus } from "../components/derive-status";
 
 export function DashboardView() {
   const jobs = useSuspenseJobs();
@@ -23,11 +24,13 @@ export function DashboardView() {
   );
 }
 export const JobItem = ({ data }: { data: Job }) => {
+  const status = deriveStatus(data.deadline);
   return (
     <JobItems
       href={`/jobs/${data.id}`}
       title={data.title}
       subtitle={<>CreatedAt {formatDistanceToNow(data.createdAt)}</>}
+      status={status}
     />
   );
 };

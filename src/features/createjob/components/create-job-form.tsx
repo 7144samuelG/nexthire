@@ -185,7 +185,7 @@ export const CreateJobForm = ({ onBack }: CreateJobFormProps) => {
           shouldValidate: true,
         });
       }
-      input.value = "";
+       input.value = "";
     }
   };
 

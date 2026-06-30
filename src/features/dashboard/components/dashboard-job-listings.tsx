@@ -11,7 +11,7 @@ import {
   ListIcon,
 } from "lucide-react";
 
-type Status = "active" | "closed" | "draft" | "review";
+type Status = "active" | "ended";
 
 interface StatItem {
   label: string;
@@ -35,14 +35,7 @@ interface StatusConfig {
 
 const STATUS_CONFIG: Record<Status, StatusConfig> = {
   active: { label: "Active", bg: "#EAF3DE", color: "#3B6D11", dot: "#639922" },
-  closed: { label: "Closed", bg: "#FCEBEB", color: "#A32D2D", dot: "#E24B4A" },
-  draft: { label: "Draft", bg: "#F3F4F6", color: "#6B7280", dot: "#9CA3AF" },
-  review: {
-    label: "In review",
-    bg: "#FAEEDA",
-    color: "#854F0B",
-    dot: "#BA7517",
-  },
+  ended: { label: "Closed", bg: "#FCEBEB", color: "#A32D2D", dot: "#E24B4A" }
 };
 
 function AnimatedNumber({ target }: { target: number }) {

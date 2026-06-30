@@ -6,13 +6,14 @@ interface JobProps {
     title: string;
     className?: string;
     subtitle?: React.ReactNode;
+    status: "active" | "ended";
 
   }
 export const JobItems = ({
     href,
     title,
     subtitle,
-    className,
+    status
   }: JobProps) => {
     // const handleRemove=async(e:React.MouseEvent)=>{
     //   e.preventDefault();
@@ -38,7 +39,7 @@ export const JobItems = ({
           </span>
         </td>
         <td style={{ padding: "12px 14px" }}>
-          <StatusPill status="active" />
+          <StatusPill status={status}/>
         </td>
         <td style={{ padding: "12px 14px", textAlign: "right" }}>
           <button
