@@ -1,12 +1,14 @@
 import { ArrowRightIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 // 2. Add this new component (place it near your other components):
-export function CreateJobCard({ onCreateJob }: { onCreateJob?: () => void }) {
+export function CreateJobCard() {
     const [hovered, setHovered] = useState(false);
+    const router =useRouter();
     return (
       <div
-        onClick={onCreateJob}
+        onClick={()=>router.push("/new-job")}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{

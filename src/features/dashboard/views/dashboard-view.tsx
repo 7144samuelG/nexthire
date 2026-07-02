@@ -1,5 +1,5 @@
 "use client";
-import JobsDashboard from "../components/dashboard-job-listings";
+import {JobsDashboard} from "../components/dashboard-job-listings";
 import { useSuspenseJobs } from "../hooks/use-jobs";
 import { Job } from "@/generated/prisma/client";
 import { JobItems } from "../components/job-item";

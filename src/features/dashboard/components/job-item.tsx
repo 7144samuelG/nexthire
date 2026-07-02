@@ -1,5 +1,6 @@
 import { CalendarIcon, EyeIcon } from "lucide-react";
 import { StatusPill } from "./dashboard-job-listings";
+import { useRouter } from "next/navigation";
 
 interface JobProps {
     href: string;
@@ -15,16 +16,7 @@ export const JobItems = ({
     subtitle,
     status
   }: JobProps) => {
-    // const handleRemove=async(e:React.MouseEvent)=>{
-    //   e.preventDefault();
-    //   e.stopPropagation();
-    //   if(isRemoving){
-    //     return;
-    //   };
-    //   if(onRemove){
-    //     await onRemove()
-    //   }
-    // }
+    const router=useRouter();
     return (
         <>
 
@@ -41,9 +33,10 @@ export const JobItems = ({
         <td style={{ padding: "12px 14px" }}>
           <StatusPill status={status}/>
         </td>
-        <td style={{ padding: "12px 14px", textAlign: "right" }}>
+        <td style={{ padding: "12px 14px", textAlign: "right" }}
+        >
           <button
-            
+            onClick={()=>router.push(`/href`)}
             style={{ fontSize: 11, fontWeight: 500, padding: "5px 11px", borderRadius: 6, border: "0.5px solid #D1D5DB", background: "transparent", color: "#6B7280", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 4 }}
           >
             <EyeIcon /> View

@@ -10,6 +10,7 @@ import {
   ClockIcon,
   ListIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Status = "active" | "ended";
 
@@ -135,13 +136,6 @@ function StatCard({ stat }: StartCard) {
       <div
         style={{ height: "0.5px", background: "#F3F4F6", marginBottom: 10 }}
       />
-      {/* <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 500 }}>
-        <span style={{ width: 5, height: 5, borderRadius: "50%", background: stat.up ? "#639922" : "#E24B4A", flexShrink: 0 }} />
-        <span style={{ color: stat.up ? "#3B6D11" : "#A32D2D" }}>{stat.trend}</span>
-      </div>
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: stat.accent + "22" }}>
-        <div style={{ width: `${pct}%`, height: "100%", background: stat.accent }} />
-      </div> */}
     </div>
   );
 }
@@ -184,7 +178,7 @@ interface JobsDashboardProps<T> {
   getKey?: (item: T, index: number) => string | number;
 }
 
-export default function JobsDashboard<T>({
+export function JobsDashboard<T>({
   renderItems,
   getKey,
   jobs,
@@ -291,11 +285,7 @@ export default function JobsDashboard<T>({
           {STATS.map((s) => (
             <StatCard key={s.label} stat={s} />
           ))}
-          <CreateJobCard
-            onCreateJob={() => {
-              /* wire to your modal/route */
-            }}
-          />
+          <CreateJobCard/>
         </div>
         <div className="flex-1 flex items-center justify-center">
           <div className="max-w-sm mx-auto">
@@ -305,7 +295,7 @@ export default function JobsDashboard<T>({
       </div>
     );
   }
-
+ const router=useRouter();
   return (
     <div
       style={{
@@ -361,11 +351,7 @@ export default function JobsDashboard<T>({
         {STATS.map((s) => (
           <StatCard key={s.label} stat={s} />
         ))}
-        <CreateJobCard
-          onCreateJob={() => {
-            /* wire to your modal/route */
-          }}
-        />
+        <CreateJobCard/>
       </div>
 
       {/* Table section header */}
@@ -524,6 +510,7 @@ export default function JobsDashboard<T>({
               alignItems: "center",
               gap: 5,
             }}
+            onClick={()=>router.push("/explore-my-jobs")}
           >
             View all <ArrowRightIcon />
           </button>
