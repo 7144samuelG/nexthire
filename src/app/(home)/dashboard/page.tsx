@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Dashboard = async ({ searchParams }: Props) => {
-  const page = 1;
   const params = await JobsParamsLoader(searchParams);
   prefetchJobs(params);
   return (
