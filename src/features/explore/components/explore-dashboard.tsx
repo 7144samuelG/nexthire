@@ -77,8 +77,8 @@ export function ExploreDashboard<T>({
   }
   return (
     <div className="min-h-screen bg-(--nh-paper)">
-      <div className="mx-auto  px-4 py-10 sm:px-6">
-        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mx-auto  px-4 py-3 sm:px-6">
+        <header className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p
               className="text-[13px] font-semibold uppercase tracking-wider text-(--nh-ink-soft)"
@@ -119,7 +119,7 @@ export function ExploreDashboard<T>({
 
         <div className="">
           <div>
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="px-4 py-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {
             totaljobs> 0 ? (
               jobs.map((job, index) => (
