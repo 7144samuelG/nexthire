@@ -81,7 +81,7 @@ export function ExploreDashboard<T>({
         <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p
-              className="text-[13px] font-semibold uppercase trackibng-wider text-(--nh-ink-soft)"
+              className="text-[13px] font-semibold uppercase tracking-wider text-(--nh-ink-soft)"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               NextHire · Hire Smarter
@@ -117,7 +117,7 @@ export function ExploreDashboard<T>({
       <div className="">
         <div>
 
-        <div className="flex-1 flex items-center justify-center">
+        <div className="">
           <div>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {
