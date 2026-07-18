@@ -119,7 +119,7 @@ export function ExploreDashboard<T>({
 
         <div className="flex-1 flex items-center justify-center">
           <div className="max-w-sm mx-auto">
-            <div className="">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {
             totaljobs> 0 ? (
               jobs.map((job, index) => (
