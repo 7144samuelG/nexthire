@@ -116,12 +116,17 @@ export function ExploreDashboard<T>({
       </div>
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          {
+
+        <div className="flex-1 flex items-center justify-center">
+          <div className="max-w-sm mx-auto">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {
             totaljobs> 0 ? (
               jobs.map((job, index) => (
                 <div
                   key={getKey ? getKey(job, index) : index}
                 >
+                  
                   {renderItems(job, index)}
                 </div>
               ))
@@ -138,6 +143,11 @@ export function ExploreDashboard<T>({
             </div>
             )
           }
+              <AddJobCard />
+            </div>
+          </div>
+        </div>
+         
         </div>
         <AddJobCard />
       </div>
