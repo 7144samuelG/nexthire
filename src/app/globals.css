@@ -49,6 +49,26 @@
 }
 
 :root {
+
+  /* Surfaces */
+  --nh-paper: #f1f3f2;      /* page background — cool, not cream */
+  --nh-card: #fbfcfb;       /* card surface, slightly lifted off paper */
+  --nh-ink: #14171f;        /* primary text / headline color */
+  --nh-ink-soft: #5b6169;   /* secondary text */
+  --nh-line: #dbdfda;       /* hairline borders, dividers, perforation */
+
+  /* Status signal colors — mirror your deadline-derived job status */
+  --nh-active: #1f7a5c;
+  --nh-active-soft: #e8f3ee;
+  --nh-closing: #c77f1a;
+  --nh-closing-soft: #fbf0dd;
+  --nh-ended: #b23a3a;
+  --nh-ended-soft: #f7e9e9;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -131,3 +151,25 @@
     @apply font-sans;
   }
 }
+
+
+/* Perforated "ticket stub" edge — the signature element separating
+   a job card's info panel from its status stub. Two rows of punched
+   circles on a hairline, like a torn boarding pass. */
+   .nh-perforation {
+    position: relative;
+    border-top: 1px dashed var(--nh-line);
+  }
+  .nh-perforation::before,
+  .nh-perforation::after {
+    content: "";
+    position: absolute;
+    top: -6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--nh-paper);
+    border: 1px solid var(--nh-line);
+  }
+  .nh-perforation::before { left: -7px; }
+  .nh-perforation::after { right: -7px; }

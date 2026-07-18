@@ -94,17 +94,16 @@ function NavSection({ label, items, pathname }: NavSectionProps) {
 export function DashboardSidebar() {
   const pathname = usePathname();
   const clerk = useClerk();
-  const [voiceDialogOpen, setVoiceDialogOpen] = useState(false);
 
   const mainMenuItems: MenuItem[] = [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: Home,
     },
     {
       title: "Explore MyJobs",
-      url: "/new",
+      url: "/explore-my-jobs",
       icon: Briefcase,
     },
     {
