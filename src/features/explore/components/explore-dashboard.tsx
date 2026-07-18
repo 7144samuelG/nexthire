@@ -149,7 +149,7 @@ export function ExploreDashboard<T>({
         </div>
          
         </div>
-        <AddJobCard />
+       
       </div>
     </div>
   );
