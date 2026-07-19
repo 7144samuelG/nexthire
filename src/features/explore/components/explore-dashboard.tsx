@@ -114,43 +114,30 @@ export function ExploreDashboard<T>({
           </dl>
         </header>
       </div>
-      <div className="">
-        <div>
 
-        <div className="">
-          <div>
-            <div className="px-4 py-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {
-            totaljobs> 0 ? (
-              jobs.map((job, index) => (
-                <div
-                  key={getKey ? getKey(job, index) : index}
-                >
-                  
-                  {renderItems(job, index)}
-                </div>
-              ))
-            ):( 
-              <div
-              style={{
-                padding: "36px 14px",
-                textAlign: "center",
-                fontSize: 13,
-                color: "#9CA3AF",
-              }}
-            >
-              No jobs match your search.
-            </div>
-            )
-          }
-             
-            </div>
+      {totaljobs > 0 ? (
+        <>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {jobs.map((job, index) => (
+              <div key={getKey ? getKey(job, index) : index}>
+                {renderItems(job, index)}
+              </div>
+            ))}
           </div>
+        </>
+      ) : (
+        <div
+          style={{
+            padding: "36px 14px",
+            textAlign: "center",
+            fontSize: 13,
+            color: "#9CA3AF",
+          }}
+        >
+          No jobs match your search.
         </div>
-         
-        </div>
-       
-      </div>
+      )}
+      <AddJobCard />
     </div>
   );
 }
